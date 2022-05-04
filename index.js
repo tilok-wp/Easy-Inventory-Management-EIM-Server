@@ -59,5 +59,5 @@ app.get('/', (req, res) => {
 
 
 app.listen(port, () => {
-    console.log('Easy Inventory Management server running port is: ', port, process.env.DB_USER_NAME, process.env.DB_USER_PASSWORD)
+    console.log('Easy Inventory Management server running port is: ', port)
 })
