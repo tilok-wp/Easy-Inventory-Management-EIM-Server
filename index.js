@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 // Must need to add local .env file content here
 require('dotenv').config()
+const { ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 // Middleware to pass data between two server
@@ -26,13 +27,21 @@ async function run() {
     try {
         await client.connect();
         const stockCollection = client.db('easy-inventory-stock').collection('product')
-
+        // Get all product list
         app.get('/inventory', async (req, res) => {
             const query = {}
             const cursor = stockCollection.find(query)
             const itemsList = await cursor.toArray()
 
             res.send(itemsList)
+        })
+        // Get single product details
+        app.get('/inventory/:id', async (req, res) => {
+            const id = req.params.id
+            console.log(id)
+            const query = { _id: ObjectId(id) }
+            const productItem = await stockCollection.findOne(query)
+            res.send(productItem)
         })
     }
     finally { }
