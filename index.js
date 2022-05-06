@@ -14,6 +14,7 @@ app.use(express.json())
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const res = require('express/lib/response');
 const uri = `mongodb+srv://${process.env.DB_USER_NAME}:${process.env.DB_USER_PASSWORD}@cluster0.zjdoc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 // client.connect(err => {
@@ -30,10 +31,22 @@ async function run() {
         // Get all product list
         app.get('/inventory', async (req, res) => {
             const query = {}
+            // console.log(req.query.limit, req.query.page)
+            const limit = parseInt(req.query.limit)
+            const page = parseInt(req.query.page)
             const cursor = stockCollection.find(query)
-            const itemsList = await cursor.toArray()
-
-            res.send(itemsList)
+            let productList
+            if (limit || page) {
+                productList = await cursor.skip(page * limit).limit(limit).toArray()
+            } else {
+                productList = await cursor.toArray()
+            }
+            res.send(productList)
+        })
+        // Stock total count
+        app.get('/inventorytotal', async (req, res) => {
+            const inventoryItemsCount = await stockCollection.estimatedDocumentCount();
+            res.send({ inventoryItemsCount })
         })
         // Get single product details
         app.get('/inventory/:id', async (req, res) => {
@@ -42,6 +55,23 @@ async function run() {
             const query = { _id: ObjectId(id) }
             const productItem = await stockCollection.findOne(query)
             res.send(productItem)
+        })
+        // insert Stock Item
+        app.post('/inventory', async (req, res) => {
+            const newProductItem = req.body
+            // console.log(newProductItem)
+            const insertedProduct = await stockCollection.insertOne(newProductItem)
+            // console.log(insertedProduct)
+            res.send(insertedProduct)
+        })
+
+        // Delete item
+        app.delete('/inventory/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            // console.log(query)
+            const result = await stockCollection.deleteOne(query)
+            res.send(result)
         })
     }
     finally { }
