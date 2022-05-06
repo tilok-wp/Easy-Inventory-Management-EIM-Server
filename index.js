@@ -28,6 +28,7 @@ async function run() {
     try {
         await client.connect();
         const stockCollection = client.db('easy-inventory-stock').collection('product')
+        const blogCollection = client.db('easy-inventory-stock').collection('blog')
         // Get all product list
         app.get('/inventory', async (req, res) => {
             const query = {}
@@ -51,7 +52,7 @@ async function run() {
         // Get single product details
         app.get('/inventory/:id', async (req, res) => {
             const id = req.params.id
-            console.log(id)
+            // console.log(id)
             const query = { _id: ObjectId(id) }
             const productItem = await stockCollection.findOne(query)
             res.send(productItem)
@@ -73,6 +74,21 @@ async function run() {
             const result = await stockCollection.deleteOne(query)
             res.send(result)
         })
+
+        // Add blog post
+        app.post('/blogs', async (req, res) => {
+            const blogItem = req.body
+            const blogInserted = await blogCollection.insertOne(blogItem)
+            res.send(blogInserted)
+        })
+        // Get Blog posts
+        app.get('/blogs', async (req, res) => {
+            const query = {}
+            const cursor = blogCollection.find(query)
+            const blogs = await cursor.toArray()
+            res.send(blogs)
+        })
+
     }
     finally { }
 }
