@@ -74,6 +74,25 @@ async function run() {
             const result = await stockCollection.deleteOne(query)
             res.send(result)
         })
+        // Update inventory
+        app.put('/inventory/:id', async (req, res) => {
+
+            const id = req.params.id;
+            const updatedStock = req.body
+            console.log(updatedStock)
+            const filter = { _id: ObjectId(id) }
+            const option = { upsert: true }
+            const updatedDoc = {
+                $set: {
+                    quantity: updatedStock.quantity,
+                    delivered: updatedStock.delivered
+                }
+            };
+
+            const result = stockCollection.updateOne(filter, updatedDoc, option)
+            res.send(result)
+
+        })
 
         // Add blog post
         app.post('/blogs', async (req, res) => {
