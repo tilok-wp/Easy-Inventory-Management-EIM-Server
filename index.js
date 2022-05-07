@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken')
 const app = express();
 // Must need to add local .env file content here
 require('dotenv').config()
@@ -29,6 +30,9 @@ async function run() {
         await client.connect();
         const stockCollection = client.db('easy-inventory-stock').collection('product')
         const blogCollection = client.db('easy-inventory-stock').collection('blog')
+
+
+
         // Get all product list
         app.get('/inventory', async (req, res) => {
             const query = {}
@@ -43,6 +47,14 @@ async function run() {
                 productList = await cursor.toArray()
             }
             res.send(productList)
+        })
+        // My items filter API
+        app.get('/myinventory', async (req, res) => {
+            const email = req.query.email
+            const query = { userEmail: email }
+            const cursor = stockCollection.find(query)
+            const filterProduct = await cursor.toArray()
+            res.send(filterProduct)
         })
         // Stock total count
         app.get('/inventorytotal', async (req, res) => {
