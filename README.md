@@ -6,9 +6,9 @@ EIM Easy Inventory Management is a simple app. Here you can easily manage your p
 
 ---
 
-## Frontend/ Client side source code: [https://github.com/ProgrammingHeroWC4/warehouse-management-client-side-tilok-wp](https://github.com/ProgrammingHeroWC4/warehouse-management-client-side-tilok-wp/)
+## Frontend/ Client side source code: [https://github.com/tilok-wp/Easy-Inventory-Management-EIM-Client](https://github.com/tilok-wp/Easy-Inventory-Management-EIM-Client)
 
-## Backend / Server side source Code:[https://github.com/ProgrammingHeroWC4/warehouse-management-server-side-tilok-wp.git](https://github.com/ProgrammingHeroWC4/warehouse-management-server-side-tilok-wp.git/)
+## Backend / Server side source Code:[https://github.com/tilok-wp/Easy-Inventory-Management-EIM-Server](https://github.com/tilok-wp/Easy-Inventory-Management-EIM-Server)
 
 ## Application Features:
 
