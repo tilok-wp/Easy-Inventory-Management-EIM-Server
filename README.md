@@ -11,7 +11,8 @@ EIM Easy Inventory Management is a simple app. Here you can easily manage your p
 ## Backend / Server side source Code:[https://github.com/tilok-wp/Easy-Inventory-Management-EIM-Server](https://github.com/tilok-wp/Easy-Inventory-Management-EIM-Server)
 
 ## Application Features:
-
+Dates inventory management solutions. The main purpose of this website is to manage product
+inventory system perfectly.
 - Manage stock item
 - Add stock item
 - Delete stock item
